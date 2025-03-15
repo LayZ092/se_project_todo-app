@@ -24,4 +24,10 @@ JavaScript with Object-Oriented Programming (OOP): Used to organize and structur
 
 This project is deployed on GitHub Pages:
 
-- [LINK](https://github.com/LayZ092/se_project_todo-app)
+- [LINK](https://layz092.github.io/se_project_todo-app/)
+
+## Images
+
+![Overview](./images/demo/todooverview.png)
+![AddModal](./images/demo/addmodal.png)
+![ModalAdded](./images/demo/todoadded.png)
