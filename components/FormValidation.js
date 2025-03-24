@@ -33,7 +33,7 @@ class FormValidation {
       this._hideError(inputEl);
     });
 
-    this._buttonElement.classList.add(this._inactiveButtonClass);
+    this._toggleButtonState(this._inputList);
     this._buttonElement.disabled = true;
   }
 

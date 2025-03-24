@@ -14,6 +14,36 @@ const todosList = document.querySelector(".todos__list");
 
 const todoCounter = new TodoCounter(initialTodos, ".counter__text");
 
+let section;
+let renderTodo;
+
+document.addEventListener("DOMContentLoaded", () => {
+  const generateTodo = (data) => {
+    const todo = new Todo(data, "#todo-template", handleCheck, todoCounter);
+    const todoElement = todo.getView();
+    return todoElement;
+  };
+
+  renderTodo = (item) => {
+    const todo = generateTodo(item);
+    return todo;
+  };
+
+  section = new Section(
+    {
+      items: initialTodos,
+      renderer: renderTodo,
+    },
+    ".todos__list"
+  );
+
+  section.renderItems();
+});
+
+addTodoButton.addEventListener("click", () => {
+  addTodoPopup.open();
+});
+
 const addTodoPopup = new PopupWithForm({
   popupSelector: "#add-todo-popup",
   handleFormSubmit: (values) => {
@@ -24,12 +54,15 @@ const addTodoPopup = new PopupWithForm({
 
     const id = uuidv4();
 
-    renderTodo({
+    const newTodo = renderTodo({
       name: values.name,
       date: date,
       id: id,
     });
 
+    section.addItem(newTodo);
+
+    addTodoPopup.getForm().reset();
     addTodoPopup.close();
     todoCounter.updateTotal(true);
 
@@ -42,30 +75,6 @@ addTodoPopup.setEventListeners();
 function handleCheck(completed) {
   todoCounter.updateCompleted(completed);
 }
-
-const renderTodo = (item) => {
-  const todo = generateTodo(item);
-  todosList.append(todo);
-};
-
-// The logic in this function should all be handled in the Todo class.
-const generateTodo = (data) => {
-  const todo = new Todo(data, "#todo-template", handleCheck, todoCounter);
-  const todoElement = todo.getView();
-  return todoElement;
-};
-
-const section = new Section({
-  items: initialTodos,
-  renderer: renderTodo,
-  containerSelector: ".todos__list",
-});
-
-section.renderItems();
-
-addTodoButton.addEventListener("click", () => {
-  addTodoPopup.open();
-});
 
 const formValidator = new FormValidation(validationConfig, addTodoForm);
 formValidator.enableValidation();
